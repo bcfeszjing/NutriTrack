@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" class="profile-page">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriTrack - Profile</title>
+    <link rel="stylesheet" href="css/profile.css">
+    <script src="js/profile.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>NutriTrack</h1>
+    </header>
+
+    <div class="profile-section">
+        <div class="profile-pic-frame" onclick="chooseProfilePicture()">
+            <img id="profile-pic" src="default-profile.png">
+        </div>
+
+        <div class="profile-details">
+            <div class="profile-field">
+                <label>Username</label>
+                <span id="username"></span>
+                <button class="edit-button" onclick="editField('username')">Edit</button>
+            </div>
+            <div class="profile-field">
+                <label>Email</label>
+                <span id="email"></span>
+                <button class="edit-button" onclick="editField('email')">Edit</button>
+            </div>
+            <div class="profile-field">
+                <label>Weight (kg)</label>
+                <span id="weight"></span>
+                <button class="edit-button" onclick="editField('weight')">Edit</button>
+            </div>
+            <div class="profile-field">
+                <label>Height (cm)</label>
+                <span id="height"></span>
+                <button class="edit-button" onclick="editField('height')">Edit</button>
+            </div>
+            <!-- Add more fields as needed -->
+        </div>
+    </div>
+
+    <footer>
+        <div onclick="location.href='home.html'" class="footer-icon home-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+            <p>Home</p>
+        </div>
+        <div onclick="location.href='nutrition.html'" class="footer-icon nutrition-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30"><path d="M12 2C8.13 2 5 5.13 5 9c0 2.74 1.56 5.13 4 6.32V20H7v2h10v-2h-2v-4.68c2.44-1.19 4-3.58 4-6.32 0-3.87-3.13-7-7-7zm0 11c-2.21 0-4-1.79-4-4 0-2.21 1.79-4 4-4s4 1.79 4 4c0 2.21-1.79 4-4 4z"/></svg>
+            <p>Nutrition</p>
+        </div>
+        <div onclick="location.href='report.html'" class="footer-icon report-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H8v-2h4v2zm3-4H8v-2h7v2zm2-4H8V7h9v2z"/></svg>
+            <p>Report</p>
+        </div>
+        <div onclick="location.href='profile.html'" class="footer-icon profile-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30"><path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+            <p>Profile</p>
+        </div>
+    </footer>
+
+    <!-- Modal for choosing media or camera -->
+    <div id="profile-pic-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <p>Choose Profile Picture</p>
+            <button onclick="openMediaPicker()">Choose from Gallery</button>
+            <button onclick="openCamera()">Take a Photo</button>
+        </div>
+    </div>
+
+    <input type="file" id="file-input" accept="image/*" style="display:none" onchange="updateProfilePic(event)">
+    
+</body>
+</html>
