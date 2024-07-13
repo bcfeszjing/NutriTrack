@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Food Details</title>
+    <link rel="stylesheet" href="css/addFoodDetails.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Add Food Details</h1>
+        <form onsubmit="event.preventDefault(); fetchFoodDetails();">
+            <div class="form-group">
+                <label for="category">Category:</label>
+                <select id="category" name="category" required>
+                    <option value="breakfast">Breakfast</option>
+                    <option value="lunch">Lunch</option>
+                    <option value="dinner">Dinner</option>
+                    <option value="snack">Snack</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="date">Date:</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            <div class="form-group">
+                <label for="foodName">Food Name:</label>
+                <input type="text" id="foodName" name="foodName" required>
+            </div>
+            <div class="form-group">
+                <label for="servingSize">Serving Size (g):</label>
+                <input type="number" id="servingSize" name="servingSize" required>
+            </div>
+            <button type="submit">Search</button>
+        </form>
+        <div class="food-details">
+            <h2>Food Details</h2>
+            <p><strong>Calories:</strong> <span id="calories"></span></p>
+            <p><strong>Protein (g):</strong> <span id="protein_g"></span></p>
+            <p><strong>Total Fat (g):</strong> <span id="fat_total_g"></span></p>
+            <p><strong>Fiber (g):</strong> <span id="fiber_g"></span></p>
+            <p><strong>Sugar (g):</strong> <span id="sugar_g"></span></p>
+            <p><strong>Total Carbohydrates (g):</strong> <span id="carbohydrates_total_g"></span></p>
+        </div>
+        <button onclick="saveFoodDetails()">Save</button>
+    </div>
+    <script src="js/addFoodDetails.js"></script>
+</body>
+</html>
