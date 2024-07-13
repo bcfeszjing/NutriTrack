@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food List</title>
+    <link rel="stylesheet" href="css/foodList.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Food List</h1>
+        <div class="form-group">
+            <label for="date">Select Date:</label>
+            <input type="date" id="date" name="date" onchange="displayFoodList()">
+        </div>
+        <div class="food-category" id="breakfast">
+            <h2>Breakfast</h2>
+            <div class="food-items"></div>
+        </div>
+        <div class="food-category" id="lunch">
+            <h2>Lunch</h2>
+            <div class="food-items"></div>
+        </div>
+        <div class="food-category" id="dinner">
+            <h2>Dinner</h2>
+            <div class="food-items"></div>
+        </div>
+        <div class="food-category" id="snack">
+            <h2>Snacks</h2>
+            <div class="food-items"></div>
+        </div>
+    </div>
+    <script src="js/foodList.js"></script>
+</body>
+</html>
