@@ -40,22 +40,51 @@ input[type="date"] {
     box-sizing: border-box;
 }
 
-.food-category {
+.category-box {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
     margin-bottom: 20px;
+    position: relative;
 }
 
-.food-category h2 {
+.category-box h2 {
     color: #555;
     margin-bottom: 10px;
 }
 
+.total-kcal {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.add-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #28a745;
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    line-height: 30px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.add-button:hover {
+    background-color: #218838;
+}
+
 .food-items {
-    display: flex;
-    flex-direction: column;
+    margin-top: 20px;
 }
 
 .food-item {
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
