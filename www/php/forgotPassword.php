@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $response = $client->request('POST', $url, [
                     'form_params' => [
                         'apikey'    => $apiKey,
-                        'from'      => 'pingsengpoh@gmail.com>',
+                        'from'      => 'pingsengpoh@gmail.com',
                         'to'        => $email,
                         'subject'   => 'Password Reset Request',
                         'bodyHtml'  => "Hi,<br><br>We received a request to reset your password. Click the link below to reset your password:<br><a href='$reset_link'>$reset_link</a><br><br>If you didn't request this, you can ignore this email.<br><br>Thanks!",
@@ -75,12 +75,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($response->getStatusCode() === 200 && $responseBody['success']) {
                     echo "Password reset instructions sent to your email.";
                 } else {
-                    echo "Failed to send password reset instructions. Please try again later. API response: " . $response->getBody();
+                    echo "Failed to send password reset instructions. Please try again later. API response: " . print_r($responseBody, true);
                 }
             } catch (RequestException $e) {
                 echo 'Exception when calling Elastic Email API: ' . $e->getMessage();
                 if ($e->hasResponse()) {
-                    echo 'API Response: ' . $e->getResponse()->getBody();
+                    echo 'API Response: ' . $e->getResponse()->getBody()->getContents();
                 }
             }
         } else {
