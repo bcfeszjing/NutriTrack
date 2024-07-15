@@ -1,10 +1,12 @@
 document.addEventListener('DOMContentLoaded', (event) => {
     // Set the category and date from query parameters
     const params = new URLSearchParams(window.location.search);
-    const category = params.get('category');
+    let category = params.get('category');
     const date = params.get('date');
 
     if (category) {
+        // Capitalize the first letter of the category
+        category = category.charAt(0).toUpperCase() + category.slice(1);
         document.getElementById('category').value = category;
     }
 
@@ -16,7 +18,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
 async function fetchFoodDetails() {
     const foodName = document.getElementById('foodName').value;
     const servingSize = document.getElementById('servingSize').value;
-    const query = `${servingSize}g ${foodName}`;
+    const query = `${servingSize}g ${foodName}`; // Fixed the syntax here
     const apiKey = 'C88S0O73Y7LOimgVjnnAiA==BddFHkUwNFO1u7hd';
     const apiUrl = `https://api.calorieninjas.com/v1/nutrition?query=${query}`;
 
@@ -39,6 +41,10 @@ async function fetchFoodDetails() {
 }
 
 function displayFoodDetails(foodDetails) {
+    // Capitalize the first letter of the food name
+    const capitalizedFoodName = foodDetails.name.charAt(0).toUpperCase() + foodDetails.name.slice(1);
+
+    document.getElementById('detail_foodName').innerText = capitalizedFoodName;
     document.getElementById('calories').innerText = foodDetails.calories;
     document.getElementById('protein_g').innerText = foodDetails.protein_g;
     document.getElementById('fat_total_g').innerText = foodDetails.fat_total_g;
@@ -79,4 +85,7 @@ function saveFoodDetails() {
     localStorage.setItem('savedFoods', JSON.stringify(savedFoods));
 
     alert('Food details saved successfully!');
+
+    // Navigate back to nutrition.html after saving
+    window.location.href = 'nutrition.html';
 }
