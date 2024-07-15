@@ -26,8 +26,8 @@ function displayNutritionDetails() {
             const foodItem = document.createElement('div');
             foodItem.className = 'food-item';
             foodItem.innerHTML = `
-                <span>${food.foodName}</span>
-                <span onclick="viewFoodDetails('${food.foodName}', '${selectedDate}', '${category}')">...</span>
+                <span>${food.foodName} - ${food.nutrition.calories} kcal</span>
+                <img src="img/three-horizontal-dots-icon.png" alt="details" class="view-details" onclick="viewFoodDetails('${food.foodName}', '${selectedDate}', '${category}')">
             `;
             categoryContainer.appendChild(foodItem);
         });

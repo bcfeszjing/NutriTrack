@@ -7,8 +7,14 @@
     <link rel="stylesheet" href="css/addFoodDetails.css">
 </head>
 <body>
+    <header>
+        <a href="nutrition.html" id="backLink">
+            <img src="img/arrow.png" alt="Back" class="back-button">
+        </a>
+        <h1>Add Food</h1>
+    </header>
+    
     <div class="container">
-        <h1>Add Food Details</h1>
         <form onsubmit="event.preventDefault(); fetchFoodDetails();">
             <div class="form-group">
                 <label for="category">Category:</label>
@@ -30,6 +36,7 @@
         </form>
         <div class="food-details">
             <h2>Food Details</h2>
+            <p><strong>Food Name:</strong> <span id="detail_foodName"></span></p>
             <p><strong>Calories:</strong> <span id="calories"></span></p>
             <p><strong>Protein (g):</strong> <span id="protein_g"></span></p>
             <p><strong>Total Fat (g):</strong> <span id="fat_total_g"></span></p>
