@@ -1,8 +1,16 @@
 document.addEventListener('DOMContentLoaded', (event) => {
-    // Set the current date
-    const dateInput = document.getElementById('date');
-    const today = new Date().toISOString().split('T')[0];
-    dateInput.value = today;
+    // Set the category and date from query parameters
+    const params = new URLSearchParams(window.location.search);
+    const category = params.get('category');
+    const date = params.get('date');
+
+    if (category) {
+        document.getElementById('category').value = category;
+    }
+
+    if (date) {
+        document.getElementById('date').value = date;
+    }
 });
 
 async function fetchFoodDetails() {
