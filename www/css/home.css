@@ -14,6 +14,12 @@ header {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+header p {
+    margin: 0;
+    font-size: 16px;
+    color: #f0f0f0;
+}
+
 .info-section {
     display: flex;
     flex-direction: column;
@@ -21,7 +27,38 @@ header {
     margin: 20px;
 }
 
-.info-bar, .meals-list {
+.info-bar {
+    background-color: #fff;
+    width: 80%;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+    text-align: center;
+    position: relative;
+}
+
+.info-bar:hover {
+    transform: scale(1.05);
+}
+
+.info-bar h2 {
+    margin-bottom: 10px;
+    color: #333;
+    text-align: center;
+    font-size: 22px;
+    border-bottom: 2px solid #4CAF50;
+    padding-bottom: 10px;
+}
+
+.info-bar p {
+    font-size: 20px;
+    color: #555;
+    margin-top: 20px;
+}
+
+.meals-list {
     background-color: #fff;
     width: 80%;
     padding: 20px;
@@ -31,11 +68,11 @@ header {
     transition: transform 0.2s;
 }
 
-.info-bar:hover, .meals-list:hover {
+.meals-list:hover {
     transform: scale(1.05);
 }
 
-.info-bar h2, .meals-list h2 {
+.meals-list h2 {
     margin-bottom: 10px;
     color: #333;
     text-align: center;
@@ -60,6 +97,10 @@ header {
 
 .meals-list ul li:hover {
     background-color: #ddd;
+}
+
+.space {
+    height: 80px; /* Adjust as needed to provide space above the footer */
 }
 
 footer {
