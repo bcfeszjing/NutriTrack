@@ -17,8 +17,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 async function fetchFoodDetails() {
     const foodName = document.getElementById('foodName').value;
-    const servingSize = document.getElementById('servingSize').value;
-    const query = `${servingSize}g ${foodName}`; // Fixed the syntax here
+    const servingSize = parseInt(document.getElementById('servingSize').value); // Parse to integer to remove decimals
+    const query = `${servingSize}g ${foodName}`;
     const apiKey = 'C88S0O73Y7LOimgVjnnAiA==BddFHkUwNFO1u7hd';
     const apiUrl = `https://api.calorieninjas.com/v1/nutrition?query=${query}`;
 
@@ -57,7 +57,7 @@ function saveFoodDetails() {
     const category = document.getElementById('category').value;
     const date = document.getElementById('date').value;
     const foodName = document.getElementById('foodName').value;
-    const servingSize = document.getElementById('servingSize').value;
+    const servingSize = parseInt(document.getElementById('servingSize').value); // Parse to integer to remove decimals
     const calories = document.getElementById('calories').innerText;
     const protein = document.getElementById('protein_g').innerText;
     const fat = document.getElementById('fat_total_g').innerText;
@@ -66,7 +66,7 @@ function saveFoodDetails() {
     const carbs = document.getElementById('carbohydrates_total_g').innerText;
 
     const foodDetails = {
-        category,
+        category: category.toLowerCase(), // Save category in lowercase for consistency
         date,
         foodName,
         servingSize,
@@ -83,6 +83,8 @@ function saveFoodDetails() {
     let savedFoods = JSON.parse(localStorage.getItem('savedFoods')) || [];
     savedFoods.push(foodDetails);
     localStorage.setItem('savedFoods', JSON.stringify(savedFoods));
+
+    console.log('Saved food details:', savedFoods); // Debugging log
 
     alert('Food details saved successfully!');
 
