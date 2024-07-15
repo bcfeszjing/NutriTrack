@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Details</title>
+    <link rel="stylesheet" href="css/foodDetails.css">
+    <!-- Add a link to any additional styling frameworks or fonts here -->
+</head>
+<body>
+    <header>
+        <a href="nutrition.html" id="backLink">
+            <img src="img/arrow.png" alt="Back" class="back-button">
+        </a>
+        <h1>Food Details</h1>
+    </header>
+    
+    <div class="container">
+        <form id="editFoodForm" onsubmit="event.preventDefault(); saveEditedFood()">
+            <div class="form-group">
+                <label for="foodName">Food Name:</label>
+                <input type="text" id="foodName" name="foodName" required>
+            </div>
+            <div class="form-group">
+                <label for="servingSize">Serving Size (g):</label>
+                <input type="number" id="servingSize" name="servingSize" required>
+            </div>
+            <div class="form-group">
+                <label for="calories">Calories:</label>
+                <input type="number" id="calories" name="calories" required>
+            </div>
+            <div class="form-group">
+                <label for="protein">Protein (g):</label>
+                <input type="number" id="protein" name="protein" required>
+            </div>
+            <div class="form-group">
+                <label for="fat">Total Fat (g):</label>
+                <input type="number" id="fat" name="fat" required>
+            </div>
+            <div class="form-group">
+                <label for="fiber">Fiber (g):</label>
+                <input type="number" id="fiber" name="fiber" required>
+            </div>
+            <div class="form-group">
+                <label for="sugar">Sugar (g):</label>
+                <input type="number" id="sugar" name="sugar" required>
+            </div>
+            <div class="form-group">
+                <label for="carbs">Total Carbohydrates (g):</label>
+                <input type="number" id="carbs" name="carbs" required>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="save-button">Save</button>
+                <button type="button" class="delete-button" onclick="deleteFood()">Delete</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="js/foodDetails.js"></script>
+</body>
+</html>

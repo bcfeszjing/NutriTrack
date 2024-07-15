@@ -9,6 +9,8 @@ document.addEventListener('DOMContentLoaded', (event) => {
 function displayNutritionDetails() {
     const selectedDate = document.getElementById('date').value;
     const savedFoods = JSON.parse(localStorage.getItem('savedFoods')) || [];
+    console.log('Saved foods from localStorage:', savedFoods); // Debugging log
+
     const categories = ['breakfast', 'lunch', 'dinner', 'snack'];
 
     categories.forEach(category => {
@@ -19,6 +21,7 @@ function displayNutritionDetails() {
         let totalKcal = 0;
 
         const foods = savedFoods.filter(food => food.date === selectedDate && food.category === category);
+        console.log(`Foods for ${category} on ${selectedDate}:`, foods); // Debugging log
 
         foods.forEach(food => {
             totalKcal += parseFloat(food.nutrition.calories);
