@@ -19,6 +19,7 @@ header {
     flex-direction: column;
     align-items: center;
     margin: 20px;
+    padding-bottom: 80px; /* Ensure there's space for the footer */
 }
 
 .profile-pic-frame {
@@ -38,7 +39,7 @@ header {
 }
 
 .profile-details {
-    width: 80%;
+    width: 100%;
 }
 
 .profile-field {
@@ -54,9 +55,29 @@ header {
 
 .profile-field label {
     font-weight: bold;
+    flex: 1; /* Allow labels to take available space */
+    white-space: nowrap;
+    margin-right: 10px;
 }
 
-.edit-button {
+.profile-field .input-container {
+    flex: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile-field span {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100px;
+}
+
+.change-button,
+.edit-button,
+.logout-button {
     padding: 5px 10px;
     background-color: #4CAF50;
     color: white;
@@ -64,10 +85,19 @@ header {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+    flex-shrink: 0; /* Prevent button from shrinking */
 }
 
-.edit-button:hover {
+.change-button:hover,
+.edit-button:hover,
+.logout-button:hover {
     background-color: #45a049;
+}
+
+.logout-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    margin-bottom: 60px; /* Add space between the logout button and the footer */
 }
 
 /* Modal styles */
@@ -99,7 +129,8 @@ header {
     margin: 10px 0;
 }
 
-.modal-content button {
+.modal-content button,
+.modal-content input {
     margin: 10px;
     padding: 10px 20px;
     background-color: #4CAF50;
@@ -110,7 +141,8 @@ header {
     transition: background-color 0.3s;
 }
 
-.modal-content button:hover {
+.modal-content button:hover,
+.modal-content input:hover {
     background-color: #45a049;
 }
 
