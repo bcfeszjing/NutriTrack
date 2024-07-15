@@ -1,0 +1,73 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(rgba(255, 255, 255, 0.770), rgba(255, 255, 255, 0.770)), 
+               url('../img/nutrition-background.png');
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center form elements */
+    margin-top: 50px; /* Adjust top margin for better positioning */
+}
+
+input[type="text"], input[type="email"], input[type="password"] {
+    width: 300px; /* Adjust width for better form appearance */
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Ensure padding and border are included in width */
+}
+
+input[type="submit"] {
+    width: 300px; /* Match width with other input fields */
+    padding: 10px;
+    background: lightgrey;
+    color: white;
+    border: none;
+    margin-top: 20px;
+    border-radius: 4px;
+    cursor: not-allowed;
+    box-sizing: border-box; /* Ensure padding and border are included in width */
+}
+
+input[type="submit"]:enabled {
+    background: #5cb85c;
+    cursor: pointer;
+}
+
+input[type="submit"]:enabled:hover {
+    background: #4cae4c;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 85px;
+    text-align: center; /* Center align the error message */
+    height: 30px;
+    position: fixed;
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.logo {
+    display: block;
+    margin: 30px auto 20px;
+    width: 100px;
+}
+
+a {
+    text-decoration: none;
+    color: #5cb85c;
+    text-align: center;
+    display: block;
+    margin-top: 10px;
+}

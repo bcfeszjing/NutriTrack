@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NutriTrack - Login</title>
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <img src="img/appicon.png" alt="App Logo" class="logo">
+    <h2>Login</h2>
+    <form id="loginForm" action="php/login.php" method="post">
+        <input type="text" name="username" id="username" placeholder="Username" required>
+        <input type="password" name="password" id="password" placeholder="Password" required>
+        <div class="error-message" id="errorMessage">
+        </div>
+        <input type="submit" value="Login">
+    </form>
+    <a href="signUp.html">Don't have an account? Sign Up</a>
+    <a href="forgotPassword.html">Forgot Password?</a>
+
+    <script>
+        function checkInput() {
+            const inputs = document.querySelectorAll('input[type="text"], input[type="password"]');
+            const submitButton = document.querySelector('input[type="submit"]');
+            let allFilled = true;
+            inputs.forEach(input => {
+                if (!input.value.trim()) {
+                    allFilled = false;
+                }
+            });
+            submitButton.disabled = !allFilled;
+            submitButton.style.backgroundColor = allFilled ? '#5cb85c' : 'lightgrey';
+            submitButton.style.cursor = allFilled ? 'pointer' : 'not-allowed';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginForm = document.getElementById('loginForm');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const errorMessage = document.getElementById('errorMessage');
+
+            loginForm.addEventListener('submit', async (event) => {
+                event.preventDefault(); // Prevent form submission
+                checkInput(); // Validate form inputs
+
+                // Fetch and handle login validation
+                if (usernameInput.value.trim() !== '' && passwordInput.value.trim() !== '') {
+                    const formData = new FormData(loginForm);
+                    try {
+                        const response = await fetch(loginForm.action, {
+                            method: 'POST',
+                            body: formData
+                        });
+                        const data = await response.json();
+                        
+                        if (response.ok && data.success) {
+                            window.location.href = 'home.html'; // Redirect on successful login
+                        } else {
+                            errorMessage.textContent = data.message; // Display error message
+                            errorMessage.style.display = 'block'; // Show the error message
+
+                            // Clear error message after 2 seconds
+                            setTimeout(() => {
+                                errorMessage.textContent = '';
+                                errorMessage.style.display = 'none';
+                            }, 2000);
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        errorMessage.textContent = 'An error occurred. Please try again.'; // Generic error message
+                        errorMessage.style.display = 'block'; // Show the error message
+                    }
+                }
+            });
+
+            // Input validation on change
+            usernameInput.addEventListener('input', checkInput);
+            passwordInput.addEventListener('input', checkInput);
+            checkInput(); // Initial check
+        });
+    </script>
+</body>
+</html>
