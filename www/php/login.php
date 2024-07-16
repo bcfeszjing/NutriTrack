@@ -5,7 +5,7 @@ $servername = "localhost";
 $usernameDB = "root";
 $passwordDB = ""; 
 $dbname = "nutritrack";
-$port = 3307;
+$port = 3306;
 
 // Create connection
 $conn = new mysqli($servername, $usernameDB, $passwordDB, $dbname, $port);
@@ -32,7 +32,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $row = $result->fetch_assoc();
         if (password_verify($pass, $row['password'])) {
             // Password matches, set session and return success
+            $_SESSION['user_id'] = $row['id'];
             $_SESSION['username'] = $user;
+            $_SESSION['original_password'] = $pass; // Store the original password in the session
+            $_SESSION['password_length'] = strlen($pass); // Store the original password length in the session
             $response['success'] = true;
             $response['message'] = 'Login successful.';
         } else {

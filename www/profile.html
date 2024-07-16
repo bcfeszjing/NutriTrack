@@ -21,14 +21,14 @@
             <div class="profile-field">
                 <label>Username</label>
                 <div class="input-container">
-                    <span id="username"></span>
+                    <span id="username">Loading...</span>
                     <button class="change-button" onclick="editField('username')">Change</button>
                 </div>
             </div>
             <div class="profile-field">
                 <label>Email</label>
                 <div class="input-container">
-                    <span id="email"></span>
+                    <span id="email">Loading...</span>
                     <button class="change-button" onclick="editField('email')">Change</button>
                 </div>
             </div>
@@ -59,7 +59,7 @@
     </div>
 
     <footer>
-        <div onclick="location.href='index.html'" class="footer-icon home-icon">
+        <div onclick="location.href='home.html'" class="footer-icon home-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
             <p>Home</p>
         </div>
@@ -71,21 +71,11 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14H8v-2h4v2zm3-4H8v-2h7v2zm2-4H8V7h9v2z"/></svg>
             <p>Report</p>
         </div>
-        <div onclick="location.href='profile.html'" class="footer-icon profile-icon active">
+        <div onclick="location.href='profile.html'" class="footer-icon profile-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30"><path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
             <p>Profile</p>
         </div>
     </footer>
-
-    <!-- Modal for choosing media or camera -->
-    <div id="profile-pic-modal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <p>Choose Profile Picture</p>
-            <button onclick="openMediaPicker()">Choose from Gallery</button>
-            <button onclick="openCamera()">Take a Photo</button>
-        </div>
-    </div>
 
     <input type="file" id="file-input" accept="image/*" style="display:none" onchange="updateProfilePic(event)">
 
@@ -94,8 +84,10 @@
         <div class="modal-content">
             <span class="close" onclick="closePasswordModal()">&times;</span>
             <p>Change Password</p>
-            <input type="password" id="new-password" placeholder="Enter new password">
-            <button id="toggle-password-visibility" onclick="togglePasswordVisibility()">👁️</button>
+            <div class="password-field">
+                <input type="password" id="password-input">
+                <button id="toggle-password-visibility" onclick="togglePasswordVisibility()">👁️</button>
+            </div>
             <button onclick="savePassword()">Save</button>
         </div>
     </div>

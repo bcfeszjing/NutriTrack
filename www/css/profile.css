@@ -129,8 +129,36 @@ header {
     margin: 10px 0;
 }
 
-.modal-content button,
-.modal-content input {
+.modal-content .password-field {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.modal-content .password-field input {
+    flex: 2;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.modal-content .password-field button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-left: 5px;
+    padding: 10px;
+}
+
+.modal-content .password-field button:hover {
+    background-color: #45a049;
+}
+
+.modal-content button {
     margin: 10px;
     padding: 10px 20px;
     background-color: #4CAF50;
@@ -141,8 +169,7 @@ header {
     transition: background-color 0.3s;
 }
 
-.modal-content button:hover,
-.modal-content input:hover {
+.modal-content button:hover {
     background-color: #45a049;
 }
 
