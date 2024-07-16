@@ -15,6 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('password').innerText = '*'.repeat(data.passwordLength);
                 document.getElementById('password').dataset.password = data.originalPassword; // Store actual password in data attribute
                 document.getElementById('password-input').dataset.password = data.originalPassword; // Store actual password in data attribute for modal
+                
+                // Load weight and height from localStorage
+                document.getElementById('weight').innerText = localStorage.getItem('weight') || 'Enter weight';
+                document.getElementById('height').innerText = localStorage.getItem('height') || 'Enter height';
             }
         })
         .catch(error => console.error('Fetch Error:', error));
@@ -74,6 +78,7 @@ function editField(field) {
                 return;
             }
             document.getElementById(field).innerText = newValue;
+            localStorage.setItem(field, newValue); // Save weight and height to localStorage
             saveUserData(field, newValue);
         }
     }
@@ -94,9 +99,7 @@ function togglePasswordVisibility() {
 function savePassword() {
     const newPassword = document.getElementById('password-input').value;
     if (newPassword) {
-        saveUserData('password', newPassword);
-        document.getElementById('password').innerText = '*'.repeat(newPassword.length);
-        closePasswordModal();
+        saveUserData('password', newPassword, true);
     } else {
         alert('Please enter a new password.');
     }
@@ -106,7 +109,7 @@ function closePasswordModal() {
     document.getElementById('password-modal').style.display = 'none';
 }
 
-function saveUserData(field, value) {
+function saveUserData(field, value, isPassword = false) {
     const data = { field: field, value: value };
 
     fetch('/NutriTrack/www/php/updateUserData.php', {
@@ -122,6 +125,17 @@ function saveUserData(field, value) {
             console.error(data.error);
         } else {
             console.log('User data updated successfully');
+            if (isPassword) {
+                document.getElementById('password').innerText = '*'.repeat(value.length);
+                document.getElementById('password').dataset.password = value;
+                document.getElementById('password-input').dataset.password = value;
+                closePasswordModal();
+            } else {
+                // Save weight and height to localStorage
+                if (field === 'weight' || field === 'height') {
+                    localStorage.setItem(field, value);
+                }
+            }
         }
     })
     .catch(error => console.error('Error:', error));
@@ -134,4 +148,3 @@ function logout() {
         })
         .catch(error => console.error('Error:', error));
 }
-
