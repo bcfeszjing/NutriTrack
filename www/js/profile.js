@@ -15,6 +15,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('password').innerText = '*'.repeat(data.passwordLength);
                 document.getElementById('password').dataset.password = data.originalPassword; // Store actual password in data attribute
                 document.getElementById('password-input').dataset.password = data.originalPassword; // Store actual password in data attribute for modal
+                
+                // Load weight, height, gender, and age from localStorage
+                document.getElementById('weight').innerText = localStorage.getItem('weight') || 'Enter Weight';
+                document.getElementById('height').innerText = localStorage.getItem('height') || 'Enter Height';
+                document.getElementById('gender').innerText = localStorage.getItem('gender') || 'Select Gender';
+                document.getElementById('age').innerText = localStorage.getItem('age') || 'Enter Age';
             }
         })
         .catch(error => console.error('Fetch Error:', error));
@@ -54,16 +60,18 @@ function updateProfilePic(event) {
 }
 
 function editField(field) {
-    const currentValue = document.getElementById(field).innerText;
-    let newValue = '';
-
     if (field === 'password') {
         document.getElementById('password-modal').style.display = 'block';
         const passwordInput = document.getElementById('password-input');
         passwordInput.type = 'password';
         passwordInput.value = '*'.repeat(document.getElementById('password').dataset.password.length); // Set password field with asterisks
+    } else if (field === 'gender') {
+        document.getElementById('gender-modal').style.display = 'block';
+    } else if (field === 'age') {
+        document.getElementById('age-modal').style.display = 'block';
     } else {
-        newValue = prompt(`Edit ${field}`, currentValue);
+        const currentValue = document.getElementById(field).innerText;
+        const newValue = prompt(`Edit ${field}`, currentValue);
         if (newValue) {
             if (field === 'email' && !validateEmail(newValue)) {
                 alert('Please enter a valid email address.');
@@ -74,6 +82,7 @@ function editField(field) {
                 return;
             }
             document.getElementById(field).innerText = newValue;
+            localStorage.setItem(field, newValue); // Save to localStorage
             saveUserData(field, newValue);
         }
     }
@@ -94,9 +103,7 @@ function togglePasswordVisibility() {
 function savePassword() {
     const newPassword = document.getElementById('password-input').value;
     if (newPassword) {
-        saveUserData('password', newPassword);
-        document.getElementById('password').innerText = '*'.repeat(newPassword.length);
-        closePasswordModal();
+        saveUserData('password', newPassword, true);
     } else {
         alert('Please enter a new password.');
     }
@@ -106,7 +113,35 @@ function closePasswordModal() {
     document.getElementById('password-modal').style.display = 'none';
 }
 
-function saveUserData(field, value) {
+function closeGenderModal() {
+    document.getElementById('gender-modal').style.display = 'none';
+}
+
+function closeAgeModal() {
+    document.getElementById('age-modal').style.display = 'none';
+}
+
+function saveGender() {
+    const gender = document.querySelector('input[name="gender"]:checked').value;
+    document.getElementById('gender').innerText = gender;
+    localStorage.setItem('gender', gender); // Save to localStorage
+    saveUserData('gender', gender);
+    closeGenderModal();
+}
+
+function saveAge() {
+    const age = document.getElementById('age-input').value;
+    if (age) {
+        document.getElementById('age').innerText = age;
+        localStorage.setItem('age', age); // Save to localStorage
+        saveUserData('age', age);
+        closeAgeModal();
+    } else {
+        alert('Please enter a valid age.');
+    }
+}
+
+function saveUserData(field, value, isPassword = false) {
     const data = { field: field, value: value };
 
     fetch('/NutriTrack/www/php/updateUserData.php', {
@@ -122,6 +157,17 @@ function saveUserData(field, value) {
             console.error(data.error);
         } else {
             console.log('User data updated successfully');
+            if (isPassword) {
+                document.getElementById('password').innerText = '*'.repeat(value.length);
+                document.getElementById('password').dataset.password = value;
+                document.getElementById('password-input').dataset.password = value;
+                closePasswordModal();
+            } else {
+                // Save weight, height, gender, and age to localStorage
+                if (field === 'weight' || field === 'height' || field === 'gender' || field === 'age') {
+                    localStorage.setItem(field, value);
+                }
+            }
         }
     })
     .catch(error => console.error('Error:', error));
@@ -134,4 +180,3 @@ function logout() {
         })
         .catch(error => console.error('Error:', error));
 }
-
