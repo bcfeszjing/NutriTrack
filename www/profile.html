@@ -40,16 +40,30 @@
                 </div>
             </div>
             <div class="profile-field">
+                <label>Gender</label>
+                <div class="input-container">
+                    <span id="gender">Select Gender</span>
+                    <button class="edit-button" onclick="editField('gender')">Edit</button>
+                </div>
+            </div>
+            <div class="profile-field">
+                <label>Age</label>
+                <div class="input-container">
+                    <span id="age">Enter Age</span>
+                    <button class="edit-button" onclick="editField('age')">Edit</button>
+                </div>
+            </div>
+            <div class="profile-field">
                 <label>Height (cm)</label>
                 <div class="input-container">
-                    <span id="height"></span>
+                    <span id="height">Enter Height</span>
                     <button class="edit-button" onclick="editField('height')">Edit</button>
                 </div>
             </div>
             <div class="profile-field">
                 <label>Weight (kg)</label>
                 <div class="input-container">
-                    <span id="weight"></span>
+                    <span id="weight">Enter Weight</span>
                     <button class="edit-button" onclick="editField('weight')">Edit</button>
                 </div>
             </div>
@@ -89,6 +103,33 @@
                 <button id="toggle-password-visibility" onclick="togglePasswordVisibility()">👁️</button>
             </div>
             <button onclick="savePassword()">Save</button>
+        </div>
+    </div>
+
+    <!-- Modal for editing gender -->
+    <div id="gender-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeGenderModal()">&times;</span>
+            <p>Select Gender</p>
+            <div>
+                <input type="radio" id="male" name="gender" value="Male">
+                <label for="male">Male</label>
+            </div>
+            <div>
+                <input type="radio" id="female" name="gender" value="Female">
+                <label for="female">Female</label>
+            </div>
+            <button onclick="saveGender()">Save</button>
+        </div>
+    </div>
+
+    <!-- Modal for editing age -->
+    <div id="age-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAgeModal()">&times;</span>
+            <p>Select Age</p>
+            <input type="number" id="age-input" min="0" max="150" step="1">
+            <button onclick="saveAge()">Save</button>
         </div>
     </div>
 </body>
