@@ -4,7 +4,7 @@ $servername = "localhost";
 $usernameDB = "root";
 $passwordDB = ""; 
 $dbname = "nutritrack";
-$port = 3306;
+$port = 3307;
 
 // Initialize variables to store user input and error messages
 $username = $email = $password = '';
@@ -57,7 +57,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Check connection
         if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+            echo json_encode(['success' => false, 'message' => "Connection failed: " . $conn->connect_error]);
+            exit();
         }
 
         // Check if username or email already exists
@@ -69,11 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($result->num_rows > 0) {
             // Username or email already exists
-            $error_message = "Username or Email already exists.";
-            echo '<script>
-                alert("' . $error_message . '");
-                window.history.back();
-            </script>';
+            echo json_encode(['success' => false, 'message' => "Username or Email already exists."]);
             $stmt->close();
             $conn->close();
             exit();
@@ -91,18 +88,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Execute statement
         if ($stmt->execute()) {
-            // Redirect to a login page or handle success message
+            echo json_encode(['success' => true, 'message' => "Sign up successful."]);
             $stmt->close();
             $conn->close();
-            header("Location: ../login.html?signup=success");
             exit();
         } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            echo json_encode(['success' => false, 'message' => "Error: " . $sql . "<br>" . $conn->error]);
         }
 
         // Close statement and connection
         $stmt->close();
         $conn->close();
+    } else {
+        // Return validation errors
+        $errors = [];
+        if ($usernameErr) $errors[] = $usernameErr;
+        if ($emailErr) $errors[] = $emailErr;
+        if ($passwordErr) $errors[] = $passwordErr;
+        echo json_encode(['success' => false, 'message' => implode(', ', $errors)]);
     }
 }
 ?>

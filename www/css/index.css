@@ -69,10 +69,19 @@ input[type="submit"]:enabled:hover {
     background: #4cae4c;
 }
 
-.error-message {
+.error-message-login {
     color: red;
     font-size: 14px;
     margin-top: 85px;
+    text-align: center; /* Center align the error message */
+    height: 30px;
+    position: fixed;
+}
+
+.error-message-signUp {
+    color: red;
+    font-size: 14px;
+    margin-top: 130px;
     text-align: center; /* Center align the error message */
     height: 30px;
     position: fixed;
