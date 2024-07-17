@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($stmt->execute()) {
             // Generate reset link
-            $reset_link = "http://localhost/NutriTrack/www/resetPassword.html?token=$token";
+            $reset_link = "http://localhost/NutriTrack/NutriTrack/www/php/resetPassword.php?token=$token";
 
             // Send email using Elastic Email API
             $apiKey = '5C12CA309D6D39028C0D41CAEF50C396C18706A1B5021D286669F4B246BEC585A4CF59BFA899B8561F6A5A4F0784D7EF';
