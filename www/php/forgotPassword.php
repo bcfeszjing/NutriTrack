@@ -10,7 +10,7 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "nutritrack";
-$port = 3307; // Adjust if your MySQL server runs on a different port
+$port = 3306; // Adjust if your MySQL server runs on a different port
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname, $port);
