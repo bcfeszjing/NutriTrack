@@ -12,8 +12,7 @@
     <form id="loginForm" action="php/login.php" method="post">
         <input type="text" name="username" id="username" placeholder="Username" required>
         <input type="password" name="password" id="password" placeholder="Password" required>
-        <div class="error-message" id="errorMessage">
-        </div>
+        <div class="error-message-login" id="errorMessage" style="display: none;"></div>
         <input type="submit" value="Login">
     </form>
     <a href="signUp.html">Don't have an account? Sign Up</a>
@@ -70,6 +69,12 @@
                         console.error('Error:', error);
                         errorMessage.textContent = 'An error occurred. Please try again.'; // Generic error message
                         errorMessage.style.display = 'block'; // Show the error message
+
+                        // Clear error message after 2 seconds
+                        setTimeout(() => {
+                            errorMessage.textContent = '';
+                            errorMessage.style.display = 'none';
+                        }, 2000);
                     }
                 }
             });
