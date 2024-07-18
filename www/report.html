@@ -77,9 +77,11 @@
     </footer>
     <script src="js/report.js"></script>
     <script>
-        // Retrieve RDI value from localStorage and display it
-        let rdi = localStorage.getItem('rdi');
-        document.getElementById('rdiValue').innerText = rdi + 'kcal';
+        document.addEventListener('DOMContentLoaded', function() {
+            // Retrieve RDI value from localStorage and display it
+            let rdi = localStorage.getItem('rdi');
+            document.getElementById('rdiValue').innerText = rdi ? rdi + ' kcal' : 'No RDI set';
+        });
     </script>
 </body>
 </html>
