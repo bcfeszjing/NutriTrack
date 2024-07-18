@@ -14,7 +14,7 @@
 
     <div class="profile-section">
         <div class="profile-pic-frame" onclick="chooseProfilePicture()">
-            <img id="profile-pic" src="default-profile.png">
+            <img id="profile-pic" src="img/5951752.png">
         </div>
 
         <div class="profile-details">
@@ -47,10 +47,16 @@
                 </div>
             </div>
             <div class="profile-field">
+                <label>Birth Date</label>
+                <div class="input-container">
+                    <span id="birth-date">Select Birth Date</span>
+                    <button class="edit-button" onclick="editField('birth-date')">Edit</button>
+                </div>
+            </div>
+            <div class="profile-field">
                 <label>Age</label>
                 <div class="input-container">
                     <span id="age">Enter Age</span>
-                    <button class="edit-button" onclick="editField('age')">Edit</button>
                 </div>
             </div>
             <div class="profile-field">
@@ -93,6 +99,17 @@
 
     <input type="file" id="file-input" accept="image/*" style="display:none" onchange="updateProfilePic(event)">
 
+    <!-- Modal for choosing profile picture source -->
+    <div id="profile-pic-modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <p>Choose Profile Picture</p>
+            <button onclick="openMediaPicker()">Choose from Library</button>
+            <button onclick="openCamera()">Take a Photo</button>
+            <button onclick="removePhoto()">Remove Photo</button>
+        </div>
+    </div>
+
     <!-- Modal for changing password -->
     <div id="password-modal" class="modal">
         <div class="modal-content">
@@ -123,13 +140,13 @@
         </div>
     </div>
 
-    <!-- Modal for editing age -->
-    <div id="age-modal" class="modal">
+    <!-- Modal for editing birth date -->
+    <div id="birth-date-modal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeAgeModal()">&times;</span>
-            <p>Select Age</p>
-            <input type="number" id="age-input" min="0" max="150" step="1">
-            <button onclick="saveAge()">Save</button>
+            <span class="close" onclick="closeBirthDateModal()">&times;</span>
+            <p>Select Birth Date</p>
+            <input type="date" id="birth-date-input">
+            <button onclick="saveBirthDate()">Save</button>
         </div>
     </div>
 </body>

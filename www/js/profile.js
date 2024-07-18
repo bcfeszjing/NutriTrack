@@ -15,18 +15,25 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('password').innerText = '*'.repeat(data.passwordLength);
                 document.getElementById('password').dataset.password = data.originalPassword; // Store actual password in data attribute
                 document.getElementById('password-input').dataset.password = data.originalPassword; // Store actual password in data attribute for modal
-                
-                // Load weight, height, gender, and age from localStorage
-                document.getElementById('weight').innerText = localStorage.getItem('weight') || 'Enter Weight';
-                document.getElementById('height').innerText = localStorage.getItem('height') || 'Enter Height';
-                document.getElementById('gender').innerText = localStorage.getItem('gender') || 'Select Gender';
-                document.getElementById('age').innerText = localStorage.getItem('age') || 'Enter Age';
+
+                // Load weight, height, gender, birth date, and age from database
+                document.getElementById('weight').innerText = data.weight !== null ? data.weight : 'Enter Weight';
+                document.getElementById('height').innerText = data.height !== null ? data.height : 'Enter Height';
+                document.getElementById('gender').innerText = data.gender !== null ? data.gender : 'Select Gender';
+                document.getElementById('birth-date').innerText = data.birth_date !== null ? data.birth_date : 'Select Birth Date';
+                document.getElementById('age').innerText = data.age !== null ? data.age : 'Enter Age';
+                if (data.profile_picture) {
+                    document.getElementById('profile-pic').src = `data:image/jpeg;base64,${data.profile_picture}`;
+                } else {
+                    document.getElementById('profile-pic').src = 'img/5951752.png'; // Default profile picture
+                }
             }
         })
         .catch(error => console.error('Fetch Error:', error));
 });
 
 function chooseProfilePicture() {
+    // Show options to either pick from media or open camera
     document.getElementById('profile-pic-modal').style.display = 'block';
 }
 
@@ -48,11 +55,20 @@ function openCamera() {
         });
 }
 
+function removePhoto() {
+    document.getElementById('profile-pic').src = 'img/5951752.png';
+    saveUserData('profile_picture', null);
+    closeModal();
+}
+
 function updateProfilePic(event) {
     if (event.target.files && event.target.files[0]) {
         var reader = new FileReader();
         reader.onload = function(e) {
             document.getElementById('profile-pic').src = e.target.result;
+
+            // Save profile picture to the database
+            saveUserData('profile_picture', e.target.result.split(',')[1]);
         }
         reader.readAsDataURL(event.target.files[0]);
         closeModal();
@@ -67,8 +83,8 @@ function editField(field) {
         passwordInput.value = '*'.repeat(document.getElementById('password').dataset.password.length); // Set password field with asterisks
     } else if (field === 'gender') {
         document.getElementById('gender-modal').style.display = 'block';
-    } else if (field === 'age') {
-        document.getElementById('age-modal').style.display = 'block';
+    } else if (field === 'birth-date') {
+        document.getElementById('birth-date-modal').style.display = 'block';
     } else {
         const currentValue = document.getElementById(field).innerText;
         const newValue = prompt(`Edit ${field}`, currentValue);
@@ -82,7 +98,6 @@ function editField(field) {
                 return;
             }
             document.getElementById(field).innerText = newValue;
-            localStorage.setItem(field, newValue); // Save to localStorage
             saveUserData(field, newValue);
         }
     }
@@ -117,28 +132,37 @@ function closeGenderModal() {
     document.getElementById('gender-modal').style.display = 'none';
 }
 
-function closeAgeModal() {
-    document.getElementById('age-modal').style.display = 'none';
+function closeBirthDateModal() {
+    document.getElementById('birth-date-modal').style.display = 'none';
 }
 
 function saveGender() {
     const gender = document.querySelector('input[name="gender"]:checked').value;
     document.getElementById('gender').innerText = gender;
-    localStorage.setItem('gender', gender); // Save to localStorage
     saveUserData('gender', gender);
     closeGenderModal();
 }
 
-function saveAge() {
-    const age = document.getElementById('age-input').value;
-    if (age) {
+function saveBirthDate() {
+    const birthDate = document.getElementById('birth-date-input').value;
+    if (birthDate) {
+        document.getElementById('birth-date').innerText = birthDate;
+        const age = calculateAge(birthDate);
         document.getElementById('age').innerText = age;
-        localStorage.setItem('age', age); // Save to localStorage
+        saveUserData('birth_date', birthDate);
         saveUserData('age', age);
-        closeAgeModal();
     } else {
-        alert('Please enter a valid age.');
+        alert('Please enter a valid birth date.');
     }
+    closeBirthDateModal();
+}
+
+function calculateAge(birthDate) {
+    if (!birthDate) return '';
+    const birthDateObj = new Date(birthDate);
+    const ageDifMs = Date.now() - birthDateObj.getTime();
+    const ageDate = new Date(ageDifMs); // milliseconds from epoch
+    return Math.abs(ageDate.getUTCFullYear() - 1970);
 }
 
 function saveUserData(field, value, isPassword = false) {
@@ -162,11 +186,6 @@ function saveUserData(field, value, isPassword = false) {
                 document.getElementById('password').dataset.password = value;
                 document.getElementById('password-input').dataset.password = value;
                 closePasswordModal();
-            } else {
-                // Save weight, height, gender, and age to localStorage
-                if (field === 'weight' || field === 'height' || field === 'gender' || field === 'age') {
-                    localStorage.setItem(field, value);
-                }
             }
         }
     })

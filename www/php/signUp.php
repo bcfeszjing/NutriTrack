@@ -4,7 +4,7 @@ $servername = "localhost";
 $usernameDB = "root";
 $passwordDB = ""; 
 $dbname = "nutritrack";
-$port = 3307;
+$port = 3306;
 
 // Initialize variables to store user input and error messages
 $username = $email = $password = '';
@@ -79,8 +79,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Hash the password
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        // Prepare SQL statement to insert data into the users table
-        $sql = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)";
+        // Prepare SQL statement to insert data into the users table with NULL initial values for optional fields
+        $sql = "INSERT INTO users (username, email, password, gender, birth_date, age, weight, height, profile_picture) VALUES (?, ?, ?, NULL, NULL, NULL, NULL, NULL, NULL)";
         
         // Prepare statement
         $stmt = $conn->prepare($sql);

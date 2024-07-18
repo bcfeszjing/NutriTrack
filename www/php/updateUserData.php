@@ -6,7 +6,7 @@ $servername = "localhost";
 $usernameDB = "root";
 $passwordDB = "";
 $dbname = "nutritrack";
-$port = 3307;
+$port = 3306;
 
 if (!isset($_SESSION['user_id'])) {
     echo json_encode(['error' => 'User not logged in']);
@@ -29,7 +29,17 @@ $userId = $_SESSION['user_id'];
 
 // Sanitize input
 $field = htmlspecialchars(strip_tags($field));
-$value = htmlspecialchars(strip_tags($value));
+
+// Handle profile picture conversion to binary
+if ($field === 'profile_picture') {
+    if (!empty($value)) {
+        $value = base64_decode($value);
+    } else {
+        $value = null;
+    }
+} else {
+    $value = htmlspecialchars(strip_tags($value));
+}
 
 // Hash password if the field is password
 if ($field === 'password') {
@@ -39,13 +49,28 @@ if ($field === 'password') {
 // Prepare SQL statement to update user data
 $sql = "UPDATE users SET $field=? WHERE id=?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("si", $value, $userId);
+
+// Bind different types of parameters depending on the field
+if ($field === 'profile_picture') {
+    $null = null;
+    $stmt->bind_param("bi", $null, $userId);
+    $stmt->send_long_data(0, $value);
+} else {
+    $stmt->bind_param("si", $value, $userId);
+}
 
 // Execute statement
 if ($stmt->execute()) {
+    // If the field is birth_date, calculate and update age
+    if ($field === 'birth_date') {
+        $sql = "UPDATE users SET age=FLOOR(DATEDIFF(CURDATE(), ?) / 365.25) WHERE id=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("si", $value, $userId);
+        $stmt->execute();
+    }
     echo json_encode(array("success" => "User data updated successfully"));
 } else {
-    echo json_encode(array("error" => "Failed to update user data"));
+    echo json_encode(array("error" => "Failed to update user data: " . $stmt->error));
 }
 
 // Close statement and connection
