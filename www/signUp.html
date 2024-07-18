@@ -13,6 +13,7 @@
         <input type="text" id="username" name="username" placeholder="Username" required>
         <input type="email" id="email" name="email" placeholder="Email" required>
         <input type="password" id="password" name="password" placeholder="Password" required>
+        <div class="error-message-signUp" id="errorMessage" style="display: none;"></div>
         <input type="submit" value="Sign Up" disabled>
     </form>
     <a href="login.html">Already have an account? Login</a>
@@ -24,6 +25,7 @@
             const emailInput = document.getElementById('email');
             const passwordInput = document.getElementById('password');
             const submitButton = document.querySelector('input[type="submit"]');
+            const errorMessage = document.getElementById('errorMessage');
 
             function checkInput() {
                 const username = usernameInput.value.trim();
@@ -36,17 +38,49 @@
                 submitButton.style.cursor = allFilled ? 'pointer' : 'not-allowed';
             }
 
-            signupForm.addEventListener('submit', (event) => {
+            signupForm.addEventListener('submit', async (event) => {
                 event.preventDefault(); // Prevent default form submission
                 checkInput(); // Ensure fields are filled before submitting
-                if (submitButton.disabled === false) {
-                    signupForm.submit(); // Submit the form if all checks pass
+
+                if (!submitButton.disabled) {
+                    const formData = new FormData(signupForm);
+                    try {
+                        const response = await fetch(signupForm.action, {
+                            method: 'POST',
+                            body: formData
+                        });
+                        const data = await response.json();
+                        
+                        if (response.ok && data.success) {
+                            window.location.href = 'login.html'; // Redirect on successful signup
+                        } else {
+                            errorMessage.textContent = data.message; // Display error message
+                            errorMessage.style.display = 'block'; // Show the error message
+
+                            // Clear error message after 2 seconds
+                            setTimeout(() => {
+                                errorMessage.textContent = '';
+                                errorMessage.style.display = 'none';
+                            }, 2000);
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        errorMessage.textContent = 'An error occurred. Please try again.'; // Generic error message
+                        errorMessage.style.display = 'block'; // Show the error message
+
+                        // Clear error message after 2 seconds
+                        setTimeout(() => {
+                            errorMessage.textContent = '';
+                            errorMessage.style.display = 'none';
+                        }, 2000);
+                    }
                 }
             });
 
             usernameInput.addEventListener('input', checkInput);
             emailInput.addEventListener('input', checkInput);
             passwordInput.addEventListener('input', checkInput);
+            checkInput(); // Initial check
         });
     </script>
 </body>

@@ -10,7 +10,7 @@ $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "nutritrack";
-$port = 3306; // Adjust if your MySQL server runs on a different port
+$port = 3307; // Adjust if your MySQL server runs on a different port
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname, $port);
@@ -40,8 +40,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Generate a unique token (a random string or hash)
         $token = bin2hex(random_bytes(32)); // Generate a 32-character hexadecimal token
 
-        // Set token expiration (e.g., 1 hour from now)
-        $expires = date('Y-m-d H:i:s', strtotime('+1 hour'));
+        // Set token expiration (e.g., 12 hour from now)
+        $expires = date('Y-m-d H:i:s', strtotime('+12 hour'));
 
         // Update token in the database using prepared statement
         $update_sql = "UPDATE users SET reset_token = ?, reset_token_expires = ? WHERE email = ?";
