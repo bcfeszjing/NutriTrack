@@ -5,7 +5,7 @@ $servername = "localhost";
 $usernameDB = "root";
 $passwordDB = ""; 
 $dbname = "nutritrack";
-$port = 3307;
+$port = 3306;
 
 // Create connection
 $conn = new mysqli($servername, $usernameDB, $passwordDB, $dbname, $port);
