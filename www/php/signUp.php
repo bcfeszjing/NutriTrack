@@ -4,7 +4,7 @@ $servername = "localhost";
 $usernameDB = "root";
 $passwordDB = ""; 
 $dbname = "nutritrack";
-$port = 3306;
+$port = 3307;
 
 // Initialize variables to store user input and error messages
 $username = $email = $password = '';

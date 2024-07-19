@@ -1,3 +1,4 @@
+//profile.js
 document.addEventListener('DOMContentLoaded', () => {
     fetch('/NutriTrack/www/php/getUserData.php')
         .then(response => {

@@ -15,7 +15,7 @@
     
     <div class="goal" onclick="goToGoalPage()">
         <h2>Goal <span id="goalIcon">🎯</span></h2>
-        <span id="rdiValue"></span>
+        <span id="rdiValue">Loading...</span>
     </div>
     
     <div class="container">
@@ -76,12 +76,5 @@
         </div>
     </footer>
     <script src="js/report.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Retrieve RDI value from localStorage and display it
-            let rdi = localStorage.getItem('rdi');
-            document.getElementById('rdiValue').innerText = rdi ? rdi + ' kcal' : 'No RDI set';
-        });
-    </script>
 </body>
 </html>
