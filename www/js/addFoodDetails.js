@@ -54,7 +54,8 @@ function displayFoodDetails(foodDetails) {
 }
 
 function saveFoodDetails() {
-    const category = document.getElementById('category').value;
+    const userId = sessionStorage.getItem('userId'); // Assuming user ID is stored in sessionStorage
+    const category = document.getElementById('category').value.toLowerCase();
     const date = document.getElementById('date').value;
     const foodName = document.getElementById('foodName').value;
     const servingSize = parseInt(document.getElementById('servingSize').value); // Parse to integer to remove decimals
@@ -66,28 +67,34 @@ function saveFoodDetails() {
     const carbs = document.getElementById('carbohydrates_total_g').innerText;
 
     const foodDetails = {
-        category: category.toLowerCase(), // Save category in lowercase for consistency
+        user_id: userId,
+        category,
         date,
-        foodName,
-        servingSize,
-        nutrition: {
-            calories,
-            protein,
-            fat,
-            fiber,
-            sugar,
-            carbs
-        }
+        food_name: foodName,
+        serving_size: servingSize,
+        calories,
+        protein,
+        fat,
+        fiber,
+        sugar,
+        carbs
     };
 
-    let savedFoods = JSON.parse(localStorage.getItem('savedFoods')) || [];
-    savedFoods.push(foodDetails);
-    localStorage.setItem('savedFoods', JSON.stringify(savedFoods));
-
-    console.log('Saved food details:', savedFoods); // Debugging log
-
-    alert('Food details saved successfully!');
-
-    // Navigate back to nutrition.html after saving
-    window.location.href = 'nutrition.html';
+    fetch('/NutriTrack/www/php/saveFoodDetails.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(foodDetails),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Food details saved successfully!');
+            window.location.href = 'nutrition.html';
+        } else {
+            console.error('Error saving food details:', data.error);
+        }
+    })
+    .catch(error => console.error('Error:', error));
 }

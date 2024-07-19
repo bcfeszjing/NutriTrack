@@ -4,29 +4,33 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const date = params.get('date');
     const category = params.get('category');
 
-    const foodDetails = fetchFoodDetails(foodName, date, category);
-    if (foodDetails) {
-        populateForm(foodDetails);
-    } else {
-        console.error('Food details not found');
-    }
+    fetchFoodDetails(foodName, date, category);
 });
 
 function fetchFoodDetails(foodName, date, category) {
-    const savedFoods = JSON.parse(localStorage.getItem('savedFoods')) || [];
-    const foundFood = savedFoods.find(food => food.foodName === foodName && food.date === date && food.category === category);
-    return foundFood;
+    const userId = sessionStorage.getItem('userId'); // Assuming user ID is stored in sessionStorage
+
+    fetch(`/NutriTrack/www/php/getFoodDetails.php?user_id=${userId}&food_name=${foodName}&date=${date}&category=${category}`)
+        .then(response => response.json())
+        .then(foodDetails => {
+            if (foodDetails) {
+                populateForm(foodDetails);
+            } else {
+                console.error('Food details not found');
+            }
+        })
+        .catch(error => console.error('Error fetching food details:', error));
 }
 
 function populateForm(foodDetails) {
-    document.getElementById('foodName').value = foodDetails.foodName;
-    document.getElementById('servingSize').value = parseInt(foodDetails.servingSize);
-    document.getElementById('calories').value = parseFloat(foodDetails.nutrition.calories).toFixed(2);
-    document.getElementById('protein').value = parseFloat(foodDetails.nutrition.protein).toFixed(2);
-    document.getElementById('fat').value = parseFloat(foodDetails.nutrition.fat).toFixed(2);
-    document.getElementById('fiber').value = parseFloat(foodDetails.nutrition.fiber).toFixed(2);
-    document.getElementById('sugar').value = parseFloat(foodDetails.nutrition.sugar).toFixed(2);
-    document.getElementById('carbs').value = parseFloat(foodDetails.nutrition.carbs).toFixed(2);
+    document.getElementById('foodName').value = foodDetails.food_name;
+    document.getElementById('servingSize').value = parseInt(foodDetails.serving_size);
+    document.getElementById('calories').value = parseFloat(foodDetails.calories).toFixed(2);
+    document.getElementById('protein').value = parseFloat(foodDetails.protein).toFixed(2);
+    document.getElementById('fat').value = parseFloat(foodDetails.fat).toFixed(2);
+    document.getElementById('fiber').value = parseFloat(foodDetails.fiber).toFixed(2);
+    document.getElementById('sugar').value = parseFloat(foodDetails.sugar).toFixed(2);
+    document.getElementById('carbs').value = parseFloat(foodDetails.carbs).toFixed(2);
 }
 
 async function fetchFoodDetailsFromAPI() {
@@ -97,20 +101,27 @@ function saveEditedFood() {
         }
     };
 
-    updateFoodDetails(updatedFoodDetails);
-    alert('Food details updated successfully!');
-    window.location.href = 'nutrition.html'; // Navigate back to nutrition.html
-}
-
-function updateFoodDetails(updatedFoodDetails) {
-    const savedFoods = JSON.parse(localStorage.getItem('savedFoods')) || [];
-    const index = savedFoods.findIndex(food => food.foodName === updatedFoodDetails.foodName && food.date === updatedFoodDetails.date && food.category === updatedFoodDetails.category);
-    if (index !== -1) {
-        savedFoods[index] = updatedFoodDetails;
-        localStorage.setItem('savedFoods', JSON.stringify(savedFoods));
-    } else {
-        console.error('Food details not found for update');
-    }
+    fetch('/NutriTrack/www/php/updateFoodDetails.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedFoodDetails),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Food details updated successfully!');
+            window.location.href = 'nutrition.html';
+        } else {
+            console.error('Failed to update food details:', data.error);
+            alert('Failed to update food details.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while updating food details.');
+    });
 }
 
 function deleteFood() {
@@ -118,12 +129,29 @@ function deleteFood() {
     const params = new URLSearchParams(window.location.search);
     const date = params.get('date');
     const category = params.get('category');
-    
-    const savedFoods = JSON.parse(localStorage.getItem('savedFoods')) || [];
-    const filteredFoods = savedFoods.filter(food => !(food.foodName === foodName && food.date === date && food.category === category));
-    
-    localStorage.setItem('savedFoods', JSON.stringify(filteredFoods));
-    
-    alert('Food deleted successfully!');
-    window.location.href = 'nutrition.html'; // Navigate back to nutrition.html
+
+    const foodDetails = {
+        food_name: foodName,
+        date,
+        category
+    };
+
+    fetch('/NutriTrack/www/php/deleteFoodDetails.php', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(foodDetails),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Food deleted successfully!');
+            window.location.href = 'nutrition.html'; // Navigate back to nutrition.html
+        } else {
+            console.error('Error deleting food:', data.error);
+        }
+    })
+    .catch(error => console.error('Error:', error));
 }
+
