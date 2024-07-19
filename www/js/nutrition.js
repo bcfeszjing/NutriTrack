@@ -8,35 +8,45 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
 function displayNutritionDetails() {
     const selectedDate = document.getElementById('date').value;
-    const savedFoods = JSON.parse(localStorage.getItem('savedFoods')) || [];
-    console.log('Saved foods from localStorage:', savedFoods); // Debugging log
 
-    const categories = ['breakfast', 'lunch', 'dinner', 'snack'];
+    fetch(`/NutriTrack/www/php/getUserFoodEntries.php?date=${selectedDate}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(savedFoods => {
+            console.log('Saved foods from database:', savedFoods); // Debugging log
 
-    categories.forEach(category => {
-        const categoryContainer = document.getElementById(category).querySelector('.food-items');
-        const totalKcalSpan = document.getElementById(`${category}-kcal`);
-        categoryContainer.innerHTML = '';
+            const categories = ['breakfast', 'lunch', 'dinner', 'snack'];
 
-        let totalKcal = 0;
+            categories.forEach(category => {
+                const categoryContainer = document.getElementById(category).querySelector('.food-items');
+                const totalKcalSpan = document.getElementById(`${category}-kcal`);
+                categoryContainer.innerHTML = '';
 
-        const foods = savedFoods.filter(food => food.date === selectedDate && food.category === category);
-        console.log(`Foods for ${category} on ${selectedDate}:`, foods); // Debugging log
+                let totalKcal = 0;
 
-        foods.forEach(food => {
-            totalKcal += parseFloat(food.nutrition.calories);
+                const foods = savedFoods.filter(food => food.category === category);
+                console.log(`Foods for ${category} on ${selectedDate}:`, foods); // Debugging log
 
-            const foodItem = document.createElement('div');
-            foodItem.className = 'food-item';
-            foodItem.innerHTML = `
-                <span>${food.foodName} - ${food.nutrition.calories} kcal</span>
-                <img src="img/three-horizontal-dots-icon.png" alt="details" class="view-details" onclick="viewFoodDetails('${food.foodName}', '${selectedDate}', '${category}')">
-            `;
-            categoryContainer.appendChild(foodItem);
-        });
+                foods.forEach(food => {
+                    totalKcal += parseFloat(food.calories);
 
-        totalKcalSpan.innerText = totalKcal.toFixed(2);
-    });
+                    const foodItem = document.createElement('div');
+                    foodItem.className = 'food-item';
+                    foodItem.innerHTML = `
+                        <span>${food.food_name} - ${food.calories} kcal</span>
+                        <img src="img/three-horizontal-dots-icon.png" alt="details" class="view-details" onclick="viewFoodDetails('${food.food_name}', '${selectedDate}', '${category}')">
+                    `;
+                    categoryContainer.appendChild(foodItem);
+                });
+
+                totalKcalSpan.innerText = totalKcal.toFixed(2);
+            });
+        })
+        .catch(error => console.error('Fetch Error:', error));
 }
 
 function goToAddFoodDetails(category) {
