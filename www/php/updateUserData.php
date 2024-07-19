@@ -1,4 +1,5 @@
 <?php
+//updateUserData.php
 session_start();
 
 // Database connection details
@@ -6,7 +7,7 @@ $servername = "localhost";
 $usernameDB = "root";
 $passwordDB = "";
 $dbname = "nutritrack";
-$port = 3306;
+$port = 3307;
 
 if (!isset($_SESSION['user_id'])) {
     echo json_encode(['error' => 'User not logged in']);

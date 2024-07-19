@@ -1,4 +1,5 @@
 <?php
+//getUserData.php
 session_start();
 
 header('Content-Type: application/json');
@@ -12,7 +13,7 @@ $servername = "localhost";
 $usernameDB = "root";
 $passwordDB = "";
 $dbname = "nutritrack";
-$port = 3306;
+$port = 3307;
 
 $conn = new mysqli($servername, $usernameDB, $passwordDB, $dbname, $port);
 
