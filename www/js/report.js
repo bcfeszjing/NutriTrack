@@ -5,7 +5,7 @@ function toggleDropdown() {
 }
 
 // Function to change the period and update the data
-async function changePeriod(period) {
+async function changePeriod(period = 'thisWeek') {
     const navTitle = document.getElementById('nav-title');
     switch (period) {
         case 'today':
@@ -26,6 +26,10 @@ async function changePeriod(period) {
     }
 
     const fetchedData = await fetchData(period);
+
+    // Log fetched data for debugging
+    console.log('Fetched Data:', fetchedData);
+
     updateChart(fetchedData, period);
     updateCategoryBreakdown(fetchedData);
     updateFoodSummary(fetchedData);
@@ -44,46 +48,6 @@ async function fetchData(period) {
         console.error('There was a problem with the fetch operation:', error);
         return [];
     }
-}
-
-// Ensure changePeriod is called when the page loads
-window.onload = function() {
-    changePeriod('thisWeek');
-};
-
-
-// Update changePeriod function to default to 'thisWeek' on page load
-async function changePeriod(period = 'thisWeek') {
-    // Update navigation title
-    const navTitle = document.getElementById('nav-title');
-    switch (period) {
-        case 'today':
-            navTitle.textContent = 'Today';
-            break;
-        case 'yesterday':
-            navTitle.textContent = 'Yesterday';
-            break;
-        case 'thisWeek':
-            navTitle.textContent = 'This Week';
-            break;
-        case 'lastWeek':
-            navTitle.textContent = 'Last Week';
-            break;
-        default:
-            navTitle.textContent = 'This Week';
-            break;
-    }
-
-    // Fetch data from the server
-    const fetchedData = await fetchData(period);
-
-    // Log fetched data for debugging
-    console.log('Fetched Data:', fetchedData);
-
-    // Update the UI components (chart, category breakdown, food summary)
-    updateChart(fetchedData, period);
-    updateCategoryBreakdown(fetchedData);
-    updateFoodSummary(fetchedData);
 }
 
 // Function to be called on page load to default to 'thisWeek'
@@ -295,33 +259,31 @@ function updateFoodSummary(data) {
 
     foodMap.forEach((details, foodName) => {
         let newRow = document.createElement('tr');
-        newRow.innerHTML = `
-            <td>${foodName}</td>
+        newRow.innerHTML = 
+            `<td>${foodName}</td>
             <td>${details.timesEaten}</td>
-            <td>${details.totalCalories.toFixed(2)} kcal</td>
-        `;
+            <td>${details.totalCalories.toFixed(2)} kcal</td>`;
         tableBody.appendChild(newRow);
     });
 
     const totalRow = document.createElement('tr');
-    totalRow.innerHTML = `
-        <td><strong>Total</strong></td>
+    totalRow.innerHTML = 
+        `<td><strong>Total</strong></td>
         <td></td>
-        <td><strong>${Array.from(foodMap.values()).reduce((total, details) => total + details.totalCalories, 0).toFixed(2)} kcal</strong></td>
-    `;
+        <td><strong>${Array.from(foodMap.values()).reduce((total, details) => total + details.totalCalories, 0).toFixed(2)} kcal</strong></td>`;
     tableBody.appendChild(totalRow);
 }
 
-// Helper function to get category color
 function getCategoryColor(category) {
     switch (category) {
         case 'breakfast': return 'rgba(255, 99, 132, 0.6)';
         case 'lunch': return 'rgba(54, 162, 235, 0.6)';
         case 'dinner': return 'rgba(255, 206, 86, 0.6)';
         case 'snack': return 'rgba(75, 192, 192, 0.6)';
-        default: return 'rgba(0, 0, 0, 0.6)';
+        default: return 'rgba(201, 203, 207, 0.6)';
     }
 }
+
 
 function goToGoalPage() {
     window.location.href = 'goal.html'; 
@@ -340,6 +302,6 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             console.error('Error fetching RDI:', error);
-            document.getElementById('rdiValue').innerText = 'Error fetching data';
+            document.getElementById('rdiValue').innerText = 'Error';
         });
 });
