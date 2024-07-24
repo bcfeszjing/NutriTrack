@@ -312,6 +312,7 @@ function updateFoodSummary(data) {
     tableBody.appendChild(totalRow);
 }
 
+// Helper function to get category color
 function getCategoryColor(category) {
     switch (category) {
         case 'breakfast': return 'rgba(255, 99, 132, 0.6)';
@@ -339,6 +340,6 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .catch(error => {
             console.error('Error fetching RDI:', error);
-            document.getElementById('rdiValue').innerText = 'Error';
+            document.getElementById('rdiValue').innerText = 'Error fetching data';
         });
 });
