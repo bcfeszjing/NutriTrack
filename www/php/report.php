@@ -2,6 +2,12 @@
 session_start();
 header('Content-Type: application/json');
 
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    echo json_encode(['error' => 'User not logged in']);
+    exit();
+}
+
 // Database connection details
 $servername = "localhost";
 $username = "root";
@@ -19,6 +25,9 @@ if ($conn->connect_error) {
 
 // Get the period from the request
 $period = isset($_GET['period']) ? $_GET['period'] : 'thisWeek';
+
+// Get the user ID from the session
+$user_id = $_SESSION['user_id'];
 
 // Define the date range based on the period
 switch ($period) {
@@ -46,11 +55,11 @@ switch ($period) {
 
 // Prepare the SQL statement
 $sql = "SELECT category, date, food_name, serving_size, calories FROM user_food_entries 
-        WHERE date BETWEEN ? AND ?";
+        WHERE date BETWEEN ? AND ? AND user_id = ?";
 
 // Prepare and execute the query
 $stmt = $conn->prepare($sql);
-$stmt->bind_param('ss', $startDate, $endDate);
+$stmt->bind_param('ssi', $startDate, $endDate, $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
 

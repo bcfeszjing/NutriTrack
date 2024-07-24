@@ -40,7 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Generate a unique token (a random string or hash)
         $token = bin2hex(random_bytes(32)); // Generate a 32-character hexadecimal token
 
-        // Set token expiration (e.g., 12 hour from now)
+        // Set token expiration 
         $expires = date('Y-m-d H:i:s', strtotime('+12 hour'));
 
         // Update token in the database using prepared statement
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($stmt->execute()) {
             // Generate reset link
-            $reset_link = "http://localhost/NutriTrack/NutriTrack/www/php/resetPassword.php?token=$token";
+            $reset_link = "http://localhost/NutriTrack/www/php/resetPassword.php?token=$token";
 
             // Send email using Elastic Email API
             $apiKey = '5C12CA309D6D39028C0D41CAEF50C396C18706A1B5021D286669F4B246BEC585A4CF59BFA899B8561F6A5A4F0784D7EF';
