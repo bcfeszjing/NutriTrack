@@ -23,6 +23,31 @@ function goBack() {
     window.history.back();
 }
 
+function calculateMyRDI() {
+    fetch('/NutriTrack/www/php/getUserData.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.error) {
+                console.error('Error:', data.error);
+            } else {
+                document.getElementById('weightDisplay').innerText = data.weight !== null ? data.weight : 'Enter Weight';
+                document.getElementById('heightDisplay').innerText = data.height !== null ? data.height : 'Enter Height';
+                document.getElementById('genderDisplay').innerText = data.gender !== null ? data.gender : 'Select Gender';
+                document.getElementById('ageDisplay').innerText = data.age !== null ? data.age : 'Enter Age';
+
+                document.getElementById('goalSection').classList.add('hidden');
+                document.getElementById('rdiSection').classList.remove('hidden');
+                document.getElementById('resultSection').classList.add('hidden');
+            }
+        })
+        .catch(error => console.error('Fetch Error:', error));
+}
+
 function calculateRDI() {
     fetch('/NutriTrack/www/php/getUserData.php')
         .then(response => {
@@ -84,6 +109,7 @@ function calculateRDI() {
                 let rdiResultElement = document.getElementById('rdiResult');
                 rdiResultElement.innerHTML = `Your Recommended Daily Intake (RDI) is: <span id="rdiValue">${rdi}</span> kcal`;
 
+                document.getElementById('goalSection').classList.add('hidden');
                 document.getElementById('rdiSection').classList.add('hidden');
                 document.getElementById('resultSection').classList.remove('hidden');
 

@@ -19,8 +19,17 @@
         </div>
     </header>
 
-    <main>  
-        <section class="rdi-section" id="rdiSection">
+    <main>
+        <section class="goal-section" id="goalSection">
+            <h3>Calories Goal</h3>
+            <div class="input-field">
+                <label for="caloriesLabel">Calories :</label>
+                <input type="number" id="caloriesLabel" name="caloriesLabel"> Cal
+            </div>
+            <button class="calculate-button" onclick="calculateMyRDI()">Calculate My RDI</button>
+        </section>
+        
+        <section class="rdi-section hidden" id="rdiSection">
             <h3>Calculate your RDI</h3>
             <div class="about-me">
                 <h4>About Me</h4>
@@ -28,18 +37,22 @@
                     <div class="info-item">
                         <span>Age:</span>
                         <span id="ageDisplay">Enter Age</span>
+                        <!-- Removed Edit Button -->
                     </div>
                     <div class="info-item">
                         <span>Gender:</span>
                         <span id="genderDisplay">Select Gender</span>
+                        <!-- Removed Edit Button -->
                     </div>
                     <div class="info-item">
                         <span>Weight:</span>
                         <span id="weightDisplay">Enter Weight</span>
+                        <!-- Removed Edit Button -->
                     </div>
                     <div class="info-item">
                         <span>Height:</span>
                         <span id="heightDisplay">Enter Height</span>
+                        <!-- Removed Edit Button -->
                     </div>
                     <div class="info-item">
                         <span>Diet Goal:</span>
